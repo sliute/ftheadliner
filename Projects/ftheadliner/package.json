@@ -2,7 +2,7 @@
   "name": "ftheadliner",
   "version": "0.0.1",
   "description": "A tech test for FT.com",
-  "private": true,
+  "main": "app.js",
   "scripts": {
     "start": "node ./bin/www",
     "test": "mocha"
