@@ -16,22 +16,19 @@ describe('Application', function() {
     });
   });
 
-  it ('can use the FT.com API', function(done) {
+  it ('can use the FT.com Headlines API for search', function(done) {
+    var postData = JSON.stringify({
+      "queryString": "branding"
+    });
+
     chai.request('http://api.ft.com')
-    .get('/content/acf309b0-13b3-11e7-80f4-13e067d5072c')
+    .post('/content/search/v1')
     .set('X-API-Key', process.env.FT_API_KEY)
+    .set('Content-Type', 'application/json')
+    .send(postData)
     .end(function(err, res) {
       expect(res).to.have.status(200);
       done();
     });
   });
-
-  // it ('has a title', function(done) {
-  //   chai.request(server)
-  //   .get('/')
-  //   .end(function(err, res) {
-  //     expect(res).to.have.text("Welcome to ftheadliner");
-  //     done();
-  //   });
-  // });
 });
