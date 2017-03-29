@@ -16,9 +16,18 @@ describe('Application', function() {
     });
   });
 
-  it ('can access the FT.com Headlines API for a simple keyword search', function(done) {
+  it ('can access the FT.com Headlines API to display the latest 20 headlines, newest first', function(done) {
     var postData = JSON.stringify({
-      "queryString": "branding"
+      "queryString": "",
+      "queryContext" : {
+    		 "curations" : ["ARTICLES","BLOGS"]
+    	},
+      "resultContext" : {
+    		 "aspects" : ["title","summary"],
+         "maxResults" : "20",
+         "sortOrder" : "DESC",
+    		 "sortField" : "initialPublishDateTime"
+    	}
     });
 
     chai.request('http://api.ft.com')
@@ -29,7 +38,9 @@ describe('Application', function() {
     .end(function(err, res) {
       expect(res).to.have.status(200);
       expect(res).to.be.json;
-      expect(res.body.query.queryString).to.equal('branding');
+      expect(res.body.query.resultContext.maxResults).to.equal(20);
+      expect(res.body.query.resultContext.sortField).to.equal('initialPublishDateTime');
+      expect(res.body.query.resultContext.sortOrder).to.equal('DESC');
       done();
     });
   });

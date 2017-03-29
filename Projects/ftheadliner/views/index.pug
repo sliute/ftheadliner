@@ -1,5 +1,11 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1= headmast
+  p A FT.com tech test displaying the latest article and blog headlines.
+  br
+  each item in results
+    - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
+    h3 #[a(href=itemURL) #{item.title.title}]
+    p #{item.summary.excerpt}
+    br

@@ -45,4 +45,56 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// extract API data (newest 20 articles and blogs)
+
+var http = require('http');
+
+var postData = JSON.stringify({
+  "queryString": "",
+  "queryContext" : {
+		 "curations" : ["ARTICLES","BLOGS"]
+	},
+  "resultContext" : {
+		 "aspects" : ["title","summary"],
+     "maxResults" : "20",
+     "sortOrder" : "DESC",
+		 "sortField" : "initialPublishDateTime"
+	}
+});
+
+var options = {
+  hostname: 'api.ft.com',
+  path: '/content/search/v1',
+  method: 'POST',
+  headers: {
+    'X-Api-Key': process.env.FT_API_KEY,
+    'Content-Type': 'application/json',
+  }
+};
+
+var req = http.request(options, function(res) {
+  var body = "";
+
+  res.on('data', function(data) {
+    body += data.toString();
+  });
+
+  res.on('end', function() {
+    app.locals.results = JSON.parse(body).results[0].results;
+    app.locals.results.forEach(function(result) {
+      console.log(result.title.title);
+      console.log(result.summary.excerpt);
+      console.log('http://www.ft.com/content/' + result.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B');
+      console.log();
+    });
+  });
+});
+
+req.on('error', function(err) {
+  console.error(err);
+});
+
+req.write(postData);
+req.end();
+
 module.exports = app;

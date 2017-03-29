@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'ftheadliner' });
+  res.render('index', { headmast: 'ftheadliner', results: req.app.locals.results });
 });
 
 module.exports = router;
