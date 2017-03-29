@@ -8,16 +8,12 @@ block content
   form(method='POST' action='/search')
     input#searchString.form-control(type='text', placeholder='Input your topic', name='searchString')
     button.btn.btn-primary(type='submit') Search FT.com headlines
-      
+    
   if errors
     ul
       for error in errors
         li!=error.msg
-          
+        
   br
-    
-  each item in results
-    - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
-    h3 #[a(href=itemURL) #{item.title.title}]
-    p #{item.summary.excerpt}
-    br
+  
+  p You searched for '#{payload}'
