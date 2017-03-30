@@ -4,25 +4,15 @@ block content
   
   include header.pug
   
-  h1 #[a(href='/') #{headmast}]
-  p A tech test that displays the latest, and searches through, FT.com headlines
+  .o-forms__wrapper--highlight
+    #status(align='center')
+      if recvd
+        p.o-typography-lead(style='color:#505050;') Your search results for '#{recvd}':
+      else
+        p.o-typography-lead(style='color:#505050;') The latest FT.com headlines
   br
-  
-  .o-grid-row
-    div(data-o-grid-colspan='3') 
-    div(data-o-grid-colspan='one-half')  
-      form(method='POST' action='/')
-        input#o-forms-standard.o-forms__text(type='text', placeholder='Input your topic', name='searchString', required='')
-        span 
-        button.o-buttons.o-buttons--standout.o-buttons--big(type='submit') Search FT.com headlines
-          
-      if errors
-        ul
-          for error in errors
-            li!=error.msg
+  br
       
-      br
-
   each item in results
     - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
     div(data-o-grid-colspan='one-third center')

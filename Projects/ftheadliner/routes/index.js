@@ -5,7 +5,7 @@ var getResults = require('../api');
 /* GET home page with generic results */
 router.get('/', function(req, res, next) {
   var renderResults = function(data) {
-    res.render('index', { headmast: 'ftheadliner', results: data });
+    res.render('index', { headmast: 'FT Headliner', results: data });
   };
 
   getResults('', renderResults);
@@ -16,7 +16,7 @@ router.post('/', function(req, res) {
   var receivedString = req.body.searchString;
 
   var renderResults = function(data) {
-    res.render('index', { headmast: 'ftheadliner', results: data });
+    res.render('index', { headmast: 'FT Headliner', results: data, recvd: receivedString });
   };
 
   getResults(receivedString, renderResults);
