@@ -5,7 +5,7 @@ block content
   p A tech test displaying the latest article and blog headlines from FT.com.
   br
     
-  form(method='POST' action='/search')
+  form(method='POST' action='/')
     input#searchString.form-control(type='text', placeholder='Input your topic', name='searchString')
     button.btn.btn-primary(type='submit') Search FT.com headlines
       
@@ -15,9 +15,10 @@ block content
         li!=error.msg
           
   br
-    
-  each item in results
-    - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
-    h3 #[a(href=itemURL) #{item.title.title}]
-    p #{item.summary.excerpt}
-    br
+  
+  ul  
+    each item in results
+      li
+        - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
+        h3 #[a(href=itemURL) #{item.title.title}]
+        p #{item.summary.excerpt}

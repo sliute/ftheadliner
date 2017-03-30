@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -8,10 +7,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-var search = require('./routes/search');
-
-// FACTOR OUT API INTERACTION
 var getResults = require('./api');
 
 var app = express();
@@ -29,8 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
-app.use('/', search);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -49,60 +42,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-// FACTOR OUT API INTERACTION
-app.locals.results = getResults('');
-
-// extract API data (newest 20 articles and blogs)
-
-// var http = require('http');
-//
-// var postData = JSON.stringify({
-//   "queryString": "",
-//   "queryContext" : {
-// 		 "curations" : ["ARTICLES","BLOGS"]
-// 	},
-//   "resultContext" : {
-// 		 "aspects" : ["title","summary"],
-//      "maxResults" : "20",
-//      "sortOrder" : "DESC",
-// 		 "sortField" : "initialPublishDateTime"
-// 	}
-// });
-//
-// var options = {
-//   hostname: 'api.ft.com',
-//   path: '/content/search/v1',
-//   method: 'POST',
-//   headers: {
-//     'X-Api-Key': process.env.FT_API_KEY,
-//     'Content-Type': 'application/json',
-//   }
-// };
-//
-// var req = http.request(options, function(res) {
-//   var body = "";
-//
-//   res.on('data', function(data) {
-//     body += data.toString();
-//   });
-//
-//   res.on('end', function() {
-//     app.locals.results = JSON.parse(body).results[0].results;
-//     app.locals.results.forEach(function(result) {
-//       console.log(result.title.title);
-//       console.log(result.summary.excerpt);
-//       console.log('http://www.ft.com/content/' + result.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B');
-//       console.log();
-//     });
-//   });
-// });
-//
-// req.on('error', function(err) {
-//   console.error(err);
-// });
-//
-// req.write(postData);
-// req.end();
 
 module.exports = app;

@@ -1,17 +1,18 @@
 var http = require('http');
 
-function getResults(searchString) {
+function getResults(searchString, cb) {
+  var searchResults = {};
   var postData = JSON.stringify({
     "queryString": searchString,
     "queryContext" : {
-  		 "curations" : ["ARTICLES","BLOGS"]
-  	},
+      "curations" : ["ARTICLES","BLOGS"]
+    },
     "resultContext" : {
-  		 "aspects" : ["title","summary"],
-       "maxResults" : "20",
-       "sortOrder" : "DESC",
-  		 "sortField" : "initialPublishDateTime"
-  	}
+      "aspects" : ["title","summary"],
+      "maxResults" : "20",
+      "sortOrder" : "DESC",
+      "sortField" : "initialPublishDateTime"
+    }
   });
 
   var options = {
@@ -24,28 +25,22 @@ function getResults(searchString) {
     }
   };
 
-  var searchResults = {};
-
-  var req = http.request(options, function(res) {
-    var body = "";
-
-    res.on('data', function(data) {
+  callback = function(res) {
+    var body = '';
+    var searchResults = {};
+    res.on('data', function (data) {
       body += data.toString();
     });
 
-    res.on('end', function() {
+    res.on('end', function () {
       searchResults = JSON.parse(body).results[0].results;
+      cb(searchResults);
     });
-  });
+  };
 
-  req.on('error', function(err) {
-    console.error(err);
-  });
-
+  var req = http.request(options, callback);
   req.write(postData);
   req.end();
-
-  return searchResults;
 }
 
 module.exports = getResults;
