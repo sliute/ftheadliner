@@ -34,23 +34,54 @@ It'd be really awesome if, on top of all that, your site:
 ```
 As a user,
 So I can quickly browse FT.com's headlines,
-I want to see them on a single page in reverse chronological order.
+I want to see a multi-page list of headlines, newest first, with 20 results per page.
 
 As a user,
 So I can see all FT.com's headlines on a specific topic,
-I want to be able to search by keyword and see a list of results.
+I want to be able to search by keyword and see a multi-page list of results, with 20 results per page.
+
+As a user,
+So I can access all the headlines or search results,
+I want to be able to move across pages.
 
 ```
 
 ## Technology
 
-* Node.js
-* Express.js
+* Node
+* Express + Pug
+* Dotenv
 * Mocha + Chai
-* ...
+
+I have used neither client-side frameworks (e.g. Angular, React) nor jQuery or other similar libraries.
 
 ## How to Use
 
-...
+The app is available on [Heroku](https://ftheadliner.herokuapp.com/). The design derives from o-teaser's [Small-Full-Fat](https://www.ft.com/__origami/service/build/v2/demos/o-teaser@1.11.2/small-full-fat) component.
 
-The app is available online on [Heroku](https://floating-hamlet-41120.herokuapp.com/).
+To deploy, test and use it locally:
+```
+$ git clone https://github.com/sliute/ftheadliner.git
+$ cd ftheadliner
+$ npm install
+$ npm test
+$ npm run dev
+$ open http://localhost:3000
+
+```
+
+Pre-requisites for local use:
+* all the above technologies, plus Nodemon
+* an .env file with a valid FT API key
+
+With Google's PageSpeed Tools, the [compressable]() app scores:
+* 90/100 on desktop
+* 74/100 on mobile, because of:
+  - the render-blocking polyfill.min.js
+  - the CSS delivery for Origami components
+
+FT Headliner could work offline on Chrome with [this](https://codelabs.developers.google.com/codelabs/offline/index.html?index=..%2F..%2Findex#0) service worker.
+
+## License
+
+[MIT](LICENSE.md)

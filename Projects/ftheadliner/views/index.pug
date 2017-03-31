@@ -6,26 +6,28 @@ block content
   
   .o-forms__wrapper--highlight
     #status(align='center')
-      if currentSearchString && (currentSearchString !== "")
+      if resultsCount === 0
+        p.o-typography-lead(style='color:#505050;') Your search - '#{currentSearchString}' - did not match any documents.
+      else if currentSearchString && (currentSearchString !== "")
         p.o-typography-lead(style='color:#505050;') Your search results for '#{currentSearchString}':
       else
         p.o-typography-lead(style='color:#505050;') The latest FT.com headlines
   
-  include pagination.pug
-      
-  each item in results
-    - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
-    - var itemDateTime = (new Date(item.lifecycle.lastPublishDateTime)).toString().slice(4,21)
-    .center-div
-      .o-teaser.o-teaser--small(data-o-component='o-teaser')
-        .o-teaser__content
-          h2.o-teaser__heading
-            a(href=itemURL) #{item.title.title}
-          p.o-teaser__standfirst #{item.summary.excerpt}
-          .o-teaser__timestamp 
-            time.o-date(data-o-component='o-date', datetime=item.lifecycle.lastPublishDateTime) #{itemDateTime}
+  if resultsCount > 0
+    include pagination.pug
+    
+    each item in results
+      - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
+      .center-div
+        .o-teaser.o-teaser--small(data-o-component='o-teaser')
+          .o-teaser__content
+            h2.o-teaser__heading
+              a(href=itemURL) #{item.title.title}
+            p.o-teaser__standfirst #{item.summary.excerpt}
+            .o-teaser__timestamp
+              time.o-date(data-o-component='o-date', datetime=item.lifecycle.lastPublishDateTime, data-o-date-format='dd MMM yyyy, HH:mm')
   
-  include pagination.pug
+    include pagination.pug
   
   include footer.pug
   

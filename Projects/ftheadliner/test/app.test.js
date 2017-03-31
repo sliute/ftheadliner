@@ -110,4 +110,16 @@ describe('Application', function() {
       done();
     });
   });
+
+  it ('can manage a search with no results', function(done) {
+    chai.request(server)
+    .post('/')
+    .send({'searchString': 'oweihfwbvlwbclsdvlsfyls', 'page': '1'})
+    .end(function(err, res) {
+      expect(res).to.have.status(200);
+      expect(res).to.be.html;
+      expect(res.res.text).to.include('Your search - \'oweihfwbvlwbclsdvlsfyls\' - did not match any documents');
+      done();
+    });
+  });
 });
