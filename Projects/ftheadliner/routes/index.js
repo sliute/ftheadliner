@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
     var nextPg = +receivedPage + 1;
     if (nextPg > lastPg) { nextPg = lastPg; }
 
-    res.render('index', { results: resultsObject, recvd: receivedString, page: receivedPage, prevPage: prevPg, nextPage: nextPg });
+    res.render('index', { results: resultsObject, currentSearchString: receivedString, page: receivedPage, prevPage: prevPg, nextPage: nextPg, lastPage: lastPg });
   };
 
   getResults(receivedString, receivedPage, renderResults);
@@ -30,7 +30,7 @@ router.post('/', function(req, res) {
 
   var renderResults = function(data) {
     var resultsObject = data.results;
-    
+
     var resultsCount = data.indexCount;
     var prevPg = +receivedPage - 1;
     if (prevPg < 1) { prevPg = 1; }
@@ -38,7 +38,7 @@ router.post('/', function(req, res) {
     var nextPg = +receivedPage + 1;
     if (nextPg > lastPg) { nextPg = lastPg; }
 
-    res.render('index', { results: resultsObject, recvd: receivedString, page: receivedPage, prevPage: prevPg, nextPage: nextPg });
+    res.render('index', { results: resultsObject, currentSearchString: receivedString, page: receivedPage, prevPage: prevPg, nextPage: nextPg, lastPage: lastPg });
   };
 
   getResults(receivedString, receivedPage, renderResults);

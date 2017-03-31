@@ -6,32 +6,12 @@ block content
   
   .o-forms__wrapper--highlight
     #status(align='center')
-      if recvd && (recvd !== "")
-        p.o-typography-lead(style='color:#505050;') Your search results for '#{recvd}':
+      if currentSearchString && (currentSearchString !== "")
+        p.o-typography-lead(style='color:#505050;') Your search results for '#{currentSearchString}':
       else
         p.o-typography-lead(style='color:#505050;') The latest FT.com headlines
-  br
-  br
   
-  form(method='POST', action='/')
-    input(type='hidden', name='searchString', value=recvd)
-    |  
-    input(type='hidden', name='page', value=prevPage)
-    |  
-    button(type='submit') Prev
-  
-  form(method='POST', action='/')
-    input(type='hidden', name='searchString', value=recvd)
-    |  
-    input(type='hidden', name='page', value=nextPage)
-    |  
-    button(type='submit') Next
-  
-  br
-  
-  | Page: #{page}  
-  
-  br
+  include pagination.pug
       
   each item in results
     - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
@@ -44,6 +24,8 @@ block content
           p.o-teaser__standfirst #{item.summary.excerpt}
           .o-teaser__timestamp 
             time.o-date(data-o-component='o-date', datetime=item.lifecycle.lastPublishDateTime) #{itemDateTime}
-
+  
+  include pagination.pug
+  
   include footer.pug
   
