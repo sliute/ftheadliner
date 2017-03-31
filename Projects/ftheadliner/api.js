@@ -8,7 +8,7 @@ function getResults(searchString, cb) {
       "curations" : ["ARTICLES","BLOGS"]
     },
     "resultContext" : {
-      "aspects" : ["title","summary"],
+      "aspects" : ["title","summary","lifecycle"],
       "maxResults" : "20",
       "sortOrder" : "DESC",
       "sortField" : "initialPublishDateTime"

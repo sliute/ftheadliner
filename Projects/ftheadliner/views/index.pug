@@ -15,16 +15,15 @@ block content
       
   each item in results
     - var itemURL = 'http://www.ft.com/content/' + item.id + '?FTCamp=engage/CAPI/webapp/Channel_sliute//B2B'
-    div(data-o-grid-colspan='one-third center')
+    - var itemDateTime = (new Date(item.lifecycle.lastPublishDateTime)).toString().slice(4,21)
+    .center-div
       .o-teaser.o-teaser--small(data-o-component='o-teaser')
         .o-teaser__content
-          //- .o-teaser__meta
-          //-   a.o-teaser__tag(href='#') FT Headliner
           h2.o-teaser__heading
             a(href=itemURL) #{item.title.title}
           p.o-teaser__standfirst #{item.summary.excerpt}
-          //- .o-teaser__timestamp.o-teaser__timestamp--inprogress 
-          //-   time.o-date(data-o-component='o-date', datetime=item.lifecycle.lastPublishDateTime) #{item.lifecycle.lastPublishDateTime}
+          .o-teaser__timestamp 
+            time.o-date(data-o-component='o-date', datetime=item.lifecycle.lastPublishDateTime) #{itemDateTime}
 
   include footer.pug
   
