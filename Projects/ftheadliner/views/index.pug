@@ -6,11 +6,31 @@ block content
   
   .o-forms__wrapper--highlight
     #status(align='center')
-      if recvd
+      if recvd && (recvd !== "")
         p.o-typography-lead(style='color:#505050;') Your search results for '#{recvd}':
       else
         p.o-typography-lead(style='color:#505050;') The latest FT.com headlines
   br
+  br
+  
+  form(method='POST', action='/')
+    input(type='hidden', name='searchString', value=recvd)
+    |  
+    input(type='hidden', name='page', value=prevPage)
+    |  
+    button(type='submit') Prev
+  
+  form(method='POST', action='/')
+    input(type='hidden', name='searchString', value=recvd)
+    |  
+    input(type='hidden', name='page', value=nextPage)
+    |  
+    button(type='submit') Next
+  
+  br
+  
+  | Page: #{page}  
+  
   br
       
   each item in results

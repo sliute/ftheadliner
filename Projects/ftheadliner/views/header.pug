@@ -16,9 +16,9 @@ header.o-header.o-header--simple(data-o-component='o-header', data-o-header--no-
           | Search the 
           abbr(title='Financial Times') FT Headlines
         |  
-        input#o-header-search-term-js.o-header__search-term(name='searchString', type='text', placeholder='Search the FT Headlines')
+        input#o-header-search-term-js.o-header__search-term(name='searchString', type='text', placeholder='Search the FT Headlines', required)
         |  
-        button.o-header__search-submit(type='submit')  Search
+        button.o-header__search-submit(type='submit', name='page', value='1')  Search
         |  
         button.o-header__search-close(type='button', aria-controls='o-header-search', title='Close search bar')
           span.o-header__visually-hidden Close

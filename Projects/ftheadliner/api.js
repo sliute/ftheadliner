@@ -1,7 +1,8 @@
 var http = require('http');
 
-function getResults(searchString, cb) {
+function getResults(searchString, searchPage, cb) {
   var searchResults = {};
+  var currentOffset = ((searchPage - 1)*20).toString();
   var postData = JSON.stringify({
     "queryString": searchString,
     "queryContext" : {
@@ -10,6 +11,7 @@ function getResults(searchString, cb) {
     "resultContext" : {
       "aspects" : ["title","summary","lifecycle"],
       "maxResults" : "20",
+      "offset" : currentOffset,
       "sortOrder" : "DESC",
       "sortField" : "initialPublishDateTime"
     }
@@ -33,7 +35,7 @@ function getResults(searchString, cb) {
     });
 
     res.on('end', function () {
-      searchResults = JSON.parse(body).results[0].results;
+      searchResults = JSON.parse(body).results[0];
       cb(searchResults);
     });
   };
