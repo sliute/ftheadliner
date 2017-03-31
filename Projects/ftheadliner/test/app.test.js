@@ -9,6 +9,8 @@ describe('Application', function() {
   var last_generic_id;
   var first_specific_id;
   var last_specific_id;
+  var first_2nd_page_id;
+  var last_2nd_page_id;
 
   it ('can make a generic (empty) FT.com Headlines API query to extract 20 headlines, newest first', function(done) {
     var postData = JSON.stringify({
@@ -61,7 +63,7 @@ describe('Application', function() {
     	},
       "resultContext" : {
     		 "aspects" : ["title","summary"],
-         "maxResults" : "20",
+         "maxResults" : "60",
          "sortOrder" : "DESC",
     		 "sortField" : "initialPublishDateTime"
     	}
@@ -75,6 +77,8 @@ describe('Application', function() {
     .end(function(err, res) {
       first_specific_id = res.body.results[0].results[0].id;
       last_specific_id = res.body.results[0].results[19].id;
+      first_2nd_page_id = res.body.results[0].results[20].id;
+      last_2nd_page_id = res.body.results[0].results[39].id;
       expect(res).to.have.status(200);
       expect(res).to.be.json;
       done();
@@ -83,13 +87,26 @@ describe('Application', function() {
 
   it ('can display search results, i.e. the extracted specific headlines', function(done) {
     chai.request(server)
-    .post('/search')
-    .send({'searchString': 'technology'})
+    .post('/')
+    .send({'searchString': 'technology', 'page': '1'})
     .end(function(err, res) {
       expect(res).to.have.status(200);
       expect(res).to.be.html;
       expect(res.res.text).to.include(first_specific_id);
       expect(res.res.text).to.include(last_specific_id);
+      done();
+    });
+  });
+
+  it ('can paginate search results, i.e. list results 21-40 on page 2', function(done) {
+    chai.request(server)
+    .post('/')
+    .send({'searchString': 'technology', 'page': '2'})
+    .end(function(err, res) {
+      expect(res).to.have.status(200);
+      expect(res).to.be.html;
+      expect(res.res.text).to.include(first_2nd_page_id);
+      expect(res.res.text).to.include(last_2nd_page_id);
       done();
     });
   });
