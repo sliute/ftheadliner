@@ -1,6 +1,6 @@
 .container
   form.inner-div(method='POST', action='/')
-    input(type='hidden', name='searchString', value=recvd)
+    input(type='hidden', name='searchString', value=currentSearchString)
     |
     input(type='hidden', name='page', value=prevPage)
     |
@@ -12,7 +12,7 @@
   button.inner-div.o-buttons.o-buttons--big(title="Page number", disabled="disabled") #{page}
   
   form.inner-div.sideBySide(method='POST', action='/')
-    input(type='hidden', name='searchString', value=recvd)
+    input(type='hidden', name='searchString', value=currentSearchString)
     |
     input(type='hidden', name='page', value=nextPage)
     |
